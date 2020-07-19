@@ -1,0 +1,24 @@
+language: generic
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t falcopellegrino/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+#    - docker run falcopellegrino/react-test npm test -- --coverage
+    - docker run -e CI=true falcopellegrino/react-test npm test
+
+after_success:
+    - docker build -t falcopellegrino/multi-client ./client
+    - docker build -t falcopellegrino/multi-nginx ./nginx
+    - docker build -t falcopellegrino/multi-server ./server
+    - docker build -t falcopellegrino/multi-worker ./worker
+    #Log in to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    #Take those images and push them to docker hub
+    - docker push falcopellegrino/multi-client
+    - docker push falcopellegrino/multi-nginx
+    - docker push falcopellegrino/multi-server
+    - docker push falcopellegrino/multi-worker
