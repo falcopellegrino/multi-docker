@@ -20,7 +20,7 @@ after_success:
     #- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     #Take those images and push them to docker hub
-    - docker push falcopellegrino/multi-client
-    - docker push falcopellegrino/multi-nginx
-    - docker push falcopellegrino/multi-server
-    - docker push falcopellegrino/multi-worker
+    - docker push docker.io/falcopellegrino/multi-client
+    - docker push docker.io/falcopellegrino/multi-nginx
+    - docker push docker.io/falcopellegrino/multi-server
+    - docker push docker.io/falcopellegrino/multi-worker
